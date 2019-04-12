@@ -1,17 +1,27 @@
+#Aim of this code is to present how life expectancy was changing within last two centuries
+
 import pandas as pd 
 import numpy as np
 import matplotlib.pyplot as plt
 
+#downloading gapminder dataset
 url='https://assets.datacamp.com/production/course_2023/datasets/gapminder.csv'
 df = pd.read_csv(url)
 
+#gapminder dataset is presented in quiet uncomfortable way. The variable year is splited within several column, additionally
+#additionally each counry posses 3 rows, duplicating information about each country
+
+#firstly I melt all years column to one
 df=df.melt(id_vars='Life expectancy')
+df.columns=['Country','Year','Life_expectancy']
+
+#then remove missing data cels
 df=df.dropna()
+
+#remove unimportant information about each country index
 df=df[df['variable']!='Unnamed: 0']
 
-df = df.sort_values('Unnamed: 0')
-df = df.reset_index(drop=True)
-df.columns=['Country','Year','Life_expectancy']
+############belows I present code responsibe for creating two part plot
 
 # Add first subplot
 plt.subplot(2, 1, 1) 
@@ -39,8 +49,5 @@ plt.tight_layout()
 plt.show()
 plt.savefig('gapminder.png')
 
-# Save both DataFrames to csv files
-df.to_csv('gapminder.csv')
-df.to_csv('gapminder_agg.csv')
 
 
